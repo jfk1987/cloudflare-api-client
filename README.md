@@ -2,6 +2,7 @@
 
 <!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here
 --->
+[![Build Status](https://dev.azure.com/hAPPtic/Cloudflare%20API%20Client/_apis/build/status/jfk1987.cloudflare-api-client?branchName=main)](https://dev.azure.com/hAPPtic/Cloudflare%20API%20Client/_build/latest?definitionId=21&branchName=main)
 ![GitHub repo size](https://img.shields.io/github/repo-size/jfk1987/cloudflare-api-client)
 ![GitHub contributors](https://img.shields.io/github/contributors/jfk1987/cloudflare-api-client)
 ![GitHub stars](https://img.shields.io/github/stars/jfk1987/cloudflare-api-client)
