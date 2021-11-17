@@ -6,29 +6,75 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'windows-latest'
-
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  dotnetSdkVersion: '3.1.x'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+  - stage: build
+    jobs:
+    - job: build
+      pool:
+        vmImage: 'ubuntu-20.04'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+      steps:
+      - task: UseDotNet@2
+        displayName: 'Use .NET SDK $(dotnetSdkVersion)'
+        inputs:
+          version: '$(dotnetSdkVersion)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore project dependencies'
+        inputs:
+          command: 'restore'
+          projects: '**/*.csproj'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'Build the project - $(buildConfiguration)'
+        inputs:
+          command: 'build'
+          arguments: '--no-restore --configuration $(buildConfiguration)'
+          projects: '**/*.csproj'
+      
+      - task: DotNetCoreCLI@2
+        displayName: 'Install .NET tools from local manifest'
+        inputs:
+          command: custom
+          custom: tool
+          arguments: 'restore'
+      
+      - task: DotNetCoreCLI@2
+        displayName: 'Run unit tests - $(buildConfiguration)'
+        inputs:
+          command: 'test'
+          arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          publishTestResults: true
+          projects: '**/*Test.csproj'
+      
+      - task: DotNetCoreCLI@2
+        displayName: 'Create code coverage report'
+        inputs:
+          command: custom
+          custom: tool
+          arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
+      
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish code coverage report'
+        inputs:
+          codeCoverageTool: 'cobertura'
+          summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+      
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish the project - $(buildConfiguration)'
+        inputs:
+          command: 'publish'
+          projects: '**/*.csproj'
+          publishWebProjects: false
+          arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+          zipAfterPublish: true
+      
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: drop'
+        condition: succeeded()
+    
+
