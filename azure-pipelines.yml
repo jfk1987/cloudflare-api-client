@@ -27,14 +27,14 @@ stages:
         displayName: 'Restore project dependencies'
         inputs:
           command: 'restore'
-          projects: '**/*.cproj'
+          projects: '**/*.csproj'
 
       - task: DotNetCoreCLI@2
         displayName: 'Build the project - $(dotnetSdkVersion)'
         inputs:
           command: 'build'
           arguments: '--no-restore --configuration $(dotnetSdkVersion)'
-          projects: '**/*.cproj'
+          projects: '**/*.csproj'
       
       - task: DotNetCoreCLI@2
         displayName: 'Install .NET tools from local manifest'
