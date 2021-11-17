@@ -33,7 +33,7 @@ stages:
         displayName: 'Build the project - $(dotnetSdkVersion)'
         inputs:
           command: 'build'
-          arguments: '--no-restore --configuration $(dotnetSdkVersion)'
+          arguments: '--no-restore --configuration $(buildConfiguration)'
           projects: '**/*.csproj'
       
       - task: DotNetCoreCLI@2
