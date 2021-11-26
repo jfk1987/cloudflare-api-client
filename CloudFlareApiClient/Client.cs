@@ -9,14 +9,20 @@ namespace CloudFlareApiClient
 {
     public class Client
     {
+        private readonly RestClient _client;
         private readonly Configuration _configuration;
         private const string BASEURL = "https://api.cloudflare.com/client/v4";
 
         public Client(Configuration configuration)
         {
             _configuration = configuration;
+            _client = new RestClient(configuration);
         }
 
+        public Client(Configuration configuration, RestClient restClient)
+        {
+            _client = restClient;
+        }
         public Configuration GetConfiguration()
         {
             return _configuration;
@@ -24,6 +30,8 @@ namespace CloudFlareApiClient
 
         public async void UpdateDnsRecord()
         {
+            
+
             DnsRecordRequest request = new DnsRecordRequest
             {
                 Content = "",

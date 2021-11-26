@@ -1,24 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CloudFlareApiClient
 {
-    public abstract class RestClient
+    public class RestClient
     {
         private readonly Configuration _configuration;
-
-        private RestClient() { }
 
         public RestClient(Configuration configuration)
         {
             _configuration = configuration;
         }
 
-        public abstract RestResponse GetRequest(RestRequest request);
-        public abstract RestResponse PostRequest(RestRequest request);
-        public abstract RestResponse DeleteRequest(RestRequest request);
-        public abstract RestResponse PutRequest(RestRequest request);
-        public abstract RestResponse PatchRequest(RestRequest request);
+        public async Task<RestResponse> GetRequest(RestRequest request)
+        {
+            return null;
+        }
+
+        public async Task<RestResponse> PostRequest(RestRequest request)
+        {
+            return null;
+        }
+
+        public async Task<RestResponse> DeleteRequest(RestRequest request)
+        {
+            return null;
+        }
+
+        public async Task<RestResponse> PutRequest(RestRequest request)
+        {
+            return null;
+        }
+
+        public async Task<RestResponse> PatchRequest(RestRequest request)
+        {
+            return null;
+        }
     }
 }
