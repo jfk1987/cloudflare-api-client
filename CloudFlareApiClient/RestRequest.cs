@@ -6,7 +6,7 @@ namespace CloudFlareApiClient
 {
     public class RestRequest
     {
-        public string path;
+        public string Path { get; set; }
         public List<UrlParameter> UrlParameters { get; set; }
         public string Body { get; set; }
     }
