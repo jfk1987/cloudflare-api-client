@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -28,7 +29,7 @@ namespace CloudFlareApiClient
 
             var response = await _client.GetAsync(uri);
             
-            return null;
+            return await ProcessResponse(response);
         }
 
         public async Task<RestResponse> PostRequest(RestRequest request)
@@ -68,6 +69,22 @@ namespace CloudFlareApiClient
             }
 
             return uri;
+        }
+
+        private async Task<RestResponse> ProcessResponse(HttpResponseMessage httpResponse)
+        {
+            RestResponse response = new RestResponse();
+
+            response.Successful = httpResponse.IsSuccessStatusCode;
+            response.ReturnCode = httpResponse.StatusCode.ToString();
+            response.Body = await httpResponse.Content.ReadAsStringAsync();
+
+            var result = from hr in httpResponse.Headers
+                         select new Dictionary<string, string>() { { "parameter", hr.Key }, { "value", hr.Value.First() } };
+
+            response.Header = result.ToList();
+
+            return response;
         }
     }
 }
