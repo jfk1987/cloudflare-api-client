@@ -61,17 +61,15 @@ namespace CloudFlareApiClient
         {
             var uri = BuildRequestUrl(request.Path, request.UrlParameters);
 
-            HttpResponseMessage response;
-
-            switch (requestType)
+            HttpResponseMessage response = requestType switch
             {
-                case RequestType.GET: response = await _client.GetAsync(uri); break;
-                case RequestType.PUT: response = await _client.PutAsync(uri, new StringContent(request.Body)); break;
-                case RequestType.POST: response = await _client.PostAsync(uri, new StringContent(request.Body)); break;
-                case RequestType.PATCH: response = await _client.PatchAsync(uri, new StringContent(request.Body)); break;
-                case RequestType.DELETE: response = await _client.DeleteAsync(uri); break;
-                default: throw new NotImplementedException();                
-            }
+                RequestType.GET => await _client.GetAsync(uri),
+                RequestType.PUT => await _client.PutAsync(uri, new StringContent(request.Body)),
+                RequestType.POST => await _client.PostAsync(uri, new StringContent(request.Body)),
+                RequestType.PATCH => await _client.PatchAsync(uri, new StringContent(request.Body)),
+                RequestType.DELETE => await _client.DeleteAsync(uri),
+                _ => throw new NotImplementedException(),
+            };
 
             return await ProcessResponseAsync(response);
         }
