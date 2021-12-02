@@ -10,6 +10,15 @@ namespace CloudFlareApiClient
 {
     public class RestClient
     {
+        internal enum RequestType 
+        {
+            GET,
+            POST,
+            PUT,
+            DELETE,
+            PATCH
+        }
+
         private readonly HttpClient _client;
         private readonly Configuration _configuration;
 
@@ -23,33 +32,48 @@ namespace CloudFlareApiClient
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<RestResponse> GetRequest(RestRequest request)
+        public async Task<RestResponse> GetRequestAsync(RestRequest request)
+        {
+            return await SendRequest(RequestType.GET, request);
+        }
+
+        public async Task<RestResponse> PostRequestAsync(RestRequest request)
+        {
+            return await SendRequest(RequestType.POST, request);
+        }
+
+        public async Task<RestResponse> DeleteRequestAsync(RestRequest request)
+        {
+            return await SendRequest(RequestType.DELETE, request);
+        }
+
+        public async Task<RestResponse> PutRequestAsync(RestRequest request)
+        {
+            return await SendRequest(RequestType.PUT, request);
+        }
+
+        public async Task<RestResponse> PatchRequestAsync(RestRequest request)
+        {
+            return await SendRequest(RequestType.PATCH, request);
+        }
+
+        private async Task<RestResponse> SendRequest(RequestType requestType, RestRequest request)
         {
             var uri = BuildRequestUrl(request.Path, request.UrlParameters);
 
-            var response = await _client.GetAsync(uri);
-            
-            return await ProcessResponse(response);
-        }
+            HttpResponseMessage response;
 
-        public async Task<RestResponse> PostRequest(RestRequest request)
-        {
-            return null;
-        }
+            switch (requestType)
+            {
+                case RequestType.GET: response = await _client.GetAsync(uri); break;
+                case RequestType.PUT: response = await _client.PutAsync(uri, new StringContent(request.Body)); break;
+                case RequestType.POST: response = await _client.PostAsync(uri, new StringContent(request.Body)); break;
+                case RequestType.PATCH: response = await _client.PatchAsync(uri, new StringContent(request.Body)); break;
+                case RequestType.DELETE: response = await _client.DeleteAsync(uri); break;
+                default: throw new NotImplementedException();                
+            }
 
-        public async Task<RestResponse> DeleteRequest(RestRequest request)
-        {
-            return null;
-        }
-
-        public async Task<RestResponse> PutRequest(RestRequest request)
-        {
-            return null;
-        }
-
-        public async Task<RestResponse> PatchRequest(RestRequest request)
-        {
-            return null;
+            return await ProcessResponseAsync(response);
         }
 
         private string BuildRequestUrl(string path, List<UrlParameter> urlParameters)
@@ -71,7 +95,7 @@ namespace CloudFlareApiClient
             return uri;
         }
 
-        private async Task<RestResponse> ProcessResponse(HttpResponseMessage httpResponse)
+        private async Task<RestResponse> ProcessResponseAsync(HttpResponseMessage httpResponse)
         {
             RestResponse response = new RestResponse();
 
