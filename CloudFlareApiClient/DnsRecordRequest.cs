@@ -12,7 +12,7 @@ namespace CloudFlareApiClient
         public bool Proxied { get; set; } = true;
 
         [JsonPropertyName("type")]
-        public DnsRecordType RecordType { get; set; }
+        public DnsRecordType RecordType { get; set; } = DnsRecordType.A;
 
         [JsonPropertyName("content")]
         public string Content { get; set; }
