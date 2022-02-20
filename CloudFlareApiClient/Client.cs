@@ -24,7 +24,7 @@ namespace CloudFlareApiClient
             return _configuration;
         }
 
-        public async Task ListZonesAsync(List<UrlParameter> urlParameters)
+        public async Task<ZoneResponse> ListZonesAsync(List<UrlParameter> urlParameters)
         {
             var request = new RestRequest
             {
@@ -33,9 +33,11 @@ namespace CloudFlareApiClient
             };
 
             var response = await _client.GetRequestAsync(request);
+
+            return DeserializeResponse<ZoneResponse>(response.Body);
         }
 
-        public async Task GetDnsRecords(string zoneId, List<UrlParameter> urlParameters)
+        public async Task<DnsRecordResponse> ListDnsRecords(string zoneId, List<UrlParameter> urlParameters)
         {
             var request = new RestRequest
             {
@@ -44,9 +46,25 @@ namespace CloudFlareApiClient
             };
 
             var response = await _client.GetRequestAsync(request);
+
+            return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
-        public async Task PostDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> CreateDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        {
+            var request = new RestRequest
+            {
+                Path = $"/zones/{zoneId}/dns_records",
+                UrlParameters = urlParameters,
+                Body = SerializeRequest(dnsRecordRequest)
+            };
+
+            var response = await _client.PostRequestAsync(request);
+
+            return DeserializeResponse<DnsRecordResponse>(response.Body);
+        }
+
+        public async Task<DnsRecordResponse> UpdateDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
         {
             var request = new RestRequest
             {
@@ -56,23 +74,18 @@ namespace CloudFlareApiClient
             };
 
             var response = await _client.PostRequestAsync(request);
-        }
 
-        public async Task PutDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
-        {
-            var request = new RestRequest
-            {
-                Path = $"/zones/{zoneId}/dns_records",
-                UrlParameters = urlParameters,
-                Body = SerializeRequest<DnsRecordRequest>(dnsRecordRequest)
-            };
-
-            var response = await _client.PostRequestAsync(request);
+            return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
         private string SerializeRequest<T>(T requestObject)
         {
             return JsonSerializer.Serialize(requestObject);
+        }
+
+        private T DeserializeResponse<T>(string response)
+        {
+            return JsonSerializer.Deserialize<T>(response);
         }
     }
 }
