@@ -24,7 +24,7 @@ namespace CloudFlareApiClient
             return _configuration;
         }
 
-        public async Task GetDnsZonesAsync(List<UrlParameter> urlParameters)
+        public async Task ListZonesAsync(List<UrlParameter> urlParameters)
         {
             var request = new RestRequest
             {
@@ -35,7 +35,7 @@ namespace CloudFlareApiClient
             var response = await _client.GetRequestAsync(request);
         }
 
-        public async Task GetZoneRecords(string zoneId, List<UrlParameter> urlParameters)
+        public async Task GetDnsRecords(string zoneId, List<UrlParameter> urlParameters)
         {
             var request = new RestRequest
             {
@@ -46,7 +46,7 @@ namespace CloudFlareApiClient
             var response = await _client.GetRequestAsync(request);
         }
 
-        public async Task PostZoneRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task PostDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
         {
             var request = new RestRequest
             {
@@ -58,7 +58,7 @@ namespace CloudFlareApiClient
             var response = await _client.PostRequestAsync(request);
         }
 
-        public async Task PutZoneRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task PutDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
         {
             var request = new RestRequest
             {

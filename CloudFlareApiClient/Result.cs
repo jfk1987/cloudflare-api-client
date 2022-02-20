@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
 namespace CloudFlareApiClient
 {
     public abstract class Result
     {
+        [JsonPropertyName("id")]
         public string Id { get; set; }
     }
 }
