@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudFlareApiClient", "Clou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudFlareApiClientTest", "CloudFlareApiClientTest\CloudFlareApiClientTest.csproj", "{F6F5DD44-1F45-4FC9-8470-DEE7C5814BBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTest", "ManualTest\ManualTest.csproj", "{14D440BD-C4B8-4AF3-A78A-AE6B0045BD53}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{F6F5DD44-1F45-4FC9-8470-DEE7C5814BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F5DD44-1F45-4FC9-8470-DEE7C5814BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6F5DD44-1F45-4FC9-8470-DEE7C5814BBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14D440BD-C4B8-4AF3-A78A-AE6B0045BD53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14D440BD-C4B8-4AF3-A78A-AE6B0045BD53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14D440BD-C4B8-4AF3-A78A-AE6B0045BD53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14D440BD-C4B8-4AF3-A78A-AE6B0045BD53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
