@@ -9,6 +9,9 @@ trigger:
 variables:
   buildConfiguration: 'Release'
   dotnetSdkVersion: '3.1.x'
+  Major: '1'
+  Minor: '0'
+  Patch: '0'
 
 stages:
   - stage: build
@@ -76,5 +79,16 @@ stages:
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
         condition: succeeded()
+
+      - task: NuGetCommand@2
+        inputs:
+          command: pack
+          packagesToPack: '**/*.csproj'
+          packDestination: '$(Build.ArtifactStagingDirectory)'
+          versioningScheme: byPrereleaseNumber
+          majorVersion: '$(Major)'
+          minorVersion: '$(Minor)'
+          patchVersion: '$(Patch)'
+          
     
 
