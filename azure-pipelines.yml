@@ -77,17 +77,20 @@ stages:
           publishWebProjects: false
           arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
           zipAfterPublish: true
-      
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: drop'
-        condition: succeeded()
-
+          
       - task: DotNetCoreCLI@2
+        displayName: Pack project 
         inputs:
           command: pack
           nobuild: true
           projects: '**/*.csproj'
           versioningScheme: byEnvVar
           versionEnvVar: NugetVersion
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: drop'
+        condition: succeeded()
+
+
     
 
