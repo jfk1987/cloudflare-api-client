@@ -8,7 +8,7 @@ trigger:
 
 variables:
   buildConfiguration: 'Release'
-  dotnetSdkVersion: '3.1.x'
+  dotnetSdkVersion: '6.0'
   Major: '0'
   Minor: '3'
   patch: $[counter(variables['minor'], 0)]
@@ -19,7 +19,7 @@ stages:
     jobs:
     - job: build
       pool:
-        vmImage: 'ubuntu-20.04'
+        vmImage: 'ubuntu-latest'
 
       steps:
       - task: UseDotNet@2
