@@ -5,10 +5,15 @@
 
 trigger:
 - main
+- feature/*
 
 variables:
   buildConfiguration: 'Release'
   dotnetSdkVersion: '3.1.x'
+  Major: '0'
+  Minor: '2'
+  patch: $[counter(variables['minor'], 0)]
+  NugetVersion: $(major).$(minor).$(patch)
 
 stages:
   - stage: build
@@ -72,9 +77,20 @@ stages:
           publishWebProjects: false
           arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
           zipAfterPublish: true
-      
+          
+      - task: DotNetCoreCLI@2
+        displayName: Pack project 
+        inputs:
+          command: pack
+          nobuild: true
+          projects: '**/*.csproj'
+          versioningScheme: byEnvVar
+          versionEnvVar: NugetVersion
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
         condition: succeeded()
+
+
     
 
