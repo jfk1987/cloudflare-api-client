@@ -1,56 +1,56 @@
 ﻿using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CloudFlareApiClient
 {
     public class DnsRecordResult : Result
     {
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("content")]
+        [JsonProperty("content")]
         public string Content { get; set; }
 
-        [JsonPropertyName("proxiable")]
+        [JsonProperty("proxiable")]
         public bool Proxiable { get; set; }
 
-        [JsonPropertyName("proxied")]
+        [JsonProperty("proxied")]
         public bool Proxied { get; set; }
 
-        [JsonPropertyName("ttl")]
+        [JsonProperty("ttl")]
         public long Ttl { get; set; }
 
-        [JsonPropertyName("locked")]
+        [JsonProperty("locked")]
         public bool Locked { get; set; }
 
-        [JsonPropertyName("zone_id")]
+        [JsonProperty("zone_id")]
         public string ZoneId { get; set; }
 
-        [JsonPropertyName("zone_name")]
+        [JsonProperty("zone_name")]
         public string ZoneName { get; set; }
 
-        [JsonPropertyName("created_on")]
+        [JsonProperty("created_on")]
         public DateTimeOffset CreatedOn { get; set; }
 
-        [JsonPropertyName("modified_on")]
+        [JsonProperty("modified_on")]
         public DateTimeOffset ModifiedOn { get; set; }
 
-        [JsonPropertyName("data")]
+        [JsonProperty("data")]
         public Object Data { get; set; }
 
-        [JsonPropertyName("meta")]
+        [JsonProperty("meta")]
         public Meta Meta { get; set; }
     }
 
     public partial class Meta
     {
-        [JsonPropertyName("auto_added")]
+        [JsonProperty("auto_added")]
         public bool AutoAdded { get; set; }
 
-        [JsonPropertyName("source")]
+        [JsonProperty("source")]
         public string Source { get; set; }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CloudFlareApiClient
 {
@@ -37,7 +34,12 @@ namespace CloudFlareApiClient
             return DeserializeResponse<ZoneResponse>(response.Body);
         }
 
-        public async Task<DnsRecordResponse> ListDnsRecords(string zoneId, List<UrlParameter> urlParameters)
+        public async Task<DnsRecordResponse> ListDnsRecordsAsync(List<UrlParameter> urlParameters = null)
+        {
+            return await ListDnsRecordsAsync(_configuration.ZoneId, urlParameters);
+        }
+
+        public async Task<DnsRecordResponse> ListDnsRecordsAsync(string zoneId, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
@@ -50,7 +52,12 @@ namespace CloudFlareApiClient
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
-        public async Task<DnsRecordResponse> CreateDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> CreateDnsRecordAsync(DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
+        {
+            return await CreateDnsRecordAsync(_configuration.ZoneId, dnsRecordRequest, urlParameters);
+        }
+
+        public async Task<DnsRecordResponse> CreateDnsRecordAsync(string zoneId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
@@ -64,7 +71,12 @@ namespace CloudFlareApiClient
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
-        public async Task<DnsRecordResponse> UpdateDnsRecord(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
+        {
+            return await UpdateDnsRecordAsync(_configuration.ZoneId, dnsRecordRequest, urlParameters);
+        }
+
+        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(string zoneId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
@@ -73,19 +85,27 @@ namespace CloudFlareApiClient
                 Body = SerializeRequest<DnsRecordRequest>(dnsRecordRequest)
             };
 
-            var response = await _client.PostRequestAsync(request);
+            var response = await _client.PutRequestAsync(request);
 
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
         private string SerializeRequest<T>(T requestObject)
         {
-            return JsonSerializer.Serialize(requestObject);
+            var options = new JsonSerializerSettings
+            {
+                Converters =
+                {
+                    new StringEnumConverter()
+                }
+            };
+
+            return JsonConvert.SerializeObject(requestObject, options);
         }
 
         private T DeserializeResponse<T>(string response)
         {
-            return JsonSerializer.Deserialize<T>(response);
+            return JsonConvert.DeserializeObject<T>(response);
         }
     }
 }

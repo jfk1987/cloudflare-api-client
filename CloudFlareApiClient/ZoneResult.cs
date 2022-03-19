@@ -1,107 +1,107 @@
 ﻿using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CloudFlareApiClient
 {
     public class ZoneResult : Result
     {
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("development_mode")]
+        [JsonProperty("development_mode")]
         public long DevelopmentMode { get; set; }
 
-        [JsonPropertyName("original_name_servers")]
+        [JsonProperty("original_name_servers")]
         public string[] OriginalNameServers { get; set; }
 
-        [JsonPropertyName("original_registrar")]
+        [JsonProperty("original_registrar")]
         public string OriginalRegistrar { get; set; }
 
-        [JsonPropertyName("original_dnshost")]
+        [JsonProperty("original_dnshost")]
         public string OriginalDnshost { get; set; }
 
-        [JsonPropertyName("created_on")]
+        [JsonProperty("created_on")]
         public DateTimeOffset CreatedOn { get; set; }
 
-        [JsonPropertyName("modified_on")]
+        [JsonProperty("modified_on")]
         public DateTimeOffset ModifiedOn { get; set; }
 
-        [JsonPropertyName("activated_on")]
+        [JsonProperty("activated_on")]
         public DateTimeOffset ActivatedOn { get; set; }
 
-        [JsonPropertyName("owner")]
+        [JsonProperty("owner")]
         public Owner Owner { get; set; }
 
-        [JsonPropertyName("account")]
+        [JsonProperty("account")]
         public Account Account { get; set; }
 
-        [JsonPropertyName("permissions")]
+        [JsonProperty("permissions")]
         public string[] Permissions { get; set; }
 
-        [JsonPropertyName("plan")]
+        [JsonProperty("plan")]
         public Plan Plan { get; set; }
 
-        [JsonPropertyName("plan_pending")]
+        [JsonProperty("plan_pending")]
         public Plan PlanPending { get; set; }
 
-        [JsonPropertyName("status")]
+        [JsonProperty("status")]
         public string Status { get; set; }
 
-        [JsonPropertyName("paused")]
+        [JsonProperty("paused")]
         public bool Paused { get; set; }
 
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; }
 
-        [JsonPropertyName("name_servers")]
+        [JsonProperty("name_servers")]
         public string[] NameServers { get; set; }
     }
 
     public partial class Account
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
     }
 
     public partial class Owner
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("email")]
+        [JsonProperty("email")]
         public string Email { get; set; }
 
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; }
     }
 
     public partial class Plan
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("price")]
+        [JsonProperty("price")]
         public long Price { get; set; }
 
-        [JsonPropertyName("currency")]
+        [JsonProperty("currency")]
         public string Currency { get; set; }
 
-        [JsonPropertyName("frequency")]
+        [JsonProperty("frequency")]
         public string Frequency { get; set; }
 
-        [JsonPropertyName("legacy_id")]
+        [JsonProperty("legacy_id")]
         public string LegacyId { get; set; }
 
-        [JsonPropertyName("is_subscribed")]
+        [JsonProperty("is_subscribed")]
         public bool IsSubscribed { get; set; }
 
-        [JsonPropertyName("can_subscribe")]
+        [JsonProperty("can_subscribe")]
         public bool CanSubscribe { get; set; }
     }
 }

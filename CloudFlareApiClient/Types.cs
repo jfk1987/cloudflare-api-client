@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CloudFlareApiClient
+﻿namespace CloudFlareApiClient
 {
     public enum DnsRecordType
     {

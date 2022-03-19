@@ -106,9 +106,9 @@ namespace CloudFlareApiClient
             HttpResponseMessage response = requestType switch
             {
                 RequestType.GET => await _client.GetAsync(uri),
-                RequestType.PUT => await _client.PutAsync(uri, new StringContent(request.Body)),
-                RequestType.POST => await _client.PostAsync(uri, new StringContent(request.Body)),
-                RequestType.PATCH => await _client.PatchAsync(uri, new StringContent(request.Body)),
+                RequestType.PUT => await _client.PutAsync(uri, new StringContent(request.Body, Encoding.UTF8, "application/json")),
+                RequestType.POST => await _client.PostAsync(uri, new StringContent(request.Body, Encoding.UTF8, "application/json")),
+                RequestType.PATCH => await _client.PatchAsync(uri, new StringContent(request.Body, Encoding.UTF8, "application/json")),
                 RequestType.DELETE => await _client.DeleteAsync(uri),
                 _ => throw new NotImplementedException(),
             };

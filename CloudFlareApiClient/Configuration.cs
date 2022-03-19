@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CloudFlareApiClient
+﻿namespace CloudFlareApiClient
 {
     public class Configuration
     {
