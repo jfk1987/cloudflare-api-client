@@ -34,12 +34,12 @@ namespace CloudFlareApiClient
             return DeserializeResponse<ZoneResponse>(response.Body);
         }
 
-        public async Task<DnsRecordResponse> ListDnsRecordsAsync(List<UrlParameter> urlParameters)
+        public async Task<DnsRecordResponse> ListDnsRecordsAsync(List<UrlParameter> urlParameters = null)
         {
             return await ListDnsRecordsAsync(_configuration.ZoneId, urlParameters);
         }
 
-        public async Task<DnsRecordResponse> ListDnsRecordsAsync(string zoneId, List<UrlParameter> urlParameters)
+        public async Task<DnsRecordResponse> ListDnsRecordsAsync(string zoneId, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
@@ -52,12 +52,12 @@ namespace CloudFlareApiClient
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
-        public async Task<DnsRecordResponse> CreateDnsRecordAsync(List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> CreateDnsRecordAsync(DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
-            return await CreateDnsRecordAsync(_configuration.ZoneId, urlParameters, dnsRecordRequest);
+            return await CreateDnsRecordAsync(_configuration.ZoneId, dnsRecordRequest, urlParameters);
         }
 
-        public async Task<DnsRecordResponse> CreateDnsRecordAsync(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> CreateDnsRecordAsync(string zoneId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
@@ -71,12 +71,12 @@ namespace CloudFlareApiClient
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
 
-        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
-            return await UpdateDnsRecordAsync(_configuration.ZoneId, urlParameters, dnsRecordRequest);
+            return await UpdateDnsRecordAsync(_configuration.ZoneId, dnsRecordRequest, urlParameters);
         }
 
-        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(string zoneId, List<UrlParameter> urlParameters, DnsRecordRequest dnsRecordRequest)
+        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(string zoneId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
