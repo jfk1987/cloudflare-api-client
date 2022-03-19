@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CloudFlareApiClient
 {
@@ -80,12 +77,20 @@ namespace CloudFlareApiClient
 
         private string SerializeRequest<T>(T requestObject)
         {
-            return JsonSerializer.Serialize(requestObject);
+            var options = new JsonSerializerSettings
+            {
+                Converters =
+                {
+                    new StringEnumConverter()
+                }
+            };
+
+            return JsonConvert.SerializeObject(requestObject, options);
         }
 
         private T DeserializeResponse<T>(string response)
         {
-            return JsonSerializer.Deserialize<T>(response);
+            return JsonConvert.DeserializeObject<T>(response);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CloudFlareApiClient
 {
@@ -11,35 +11,35 @@ namespace CloudFlareApiClient
         private string _name;
         private int _ttl = 1;
 
-        [JsonPropertyName("proxied")]        
+        [JsonProperty("proxied")]        
         public bool Proxied 
         { 
             get => _proxied; 
             set => _proxied = value; 
         }
 
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public DnsRecordType RecordType
         { 
             get => _recordType; 
             set => _recordType = value; 
         }
 
-        [JsonPropertyName("content")]
+        [JsonProperty("content")]
         public string Content 
         { 
             get => _content; 
             set => _content = value; 
         }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name 
         { 
             get => _name; 
             set => SetName(value); 
         }
 
-        [JsonPropertyName("ttl")]
+        [JsonProperty("ttl")]
         public int TTL 
         { 
             get => _ttl; 

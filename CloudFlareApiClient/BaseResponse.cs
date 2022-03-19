@@ -1,20 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CloudFlareApiClient
 {
-    public class BaseResponse<T>
+    public class BaseResponse
     {
-        [JsonPropertyName("success")]
+        [JsonProperty("success")]
         public bool Success { get; set; }
 
-        [JsonPropertyName("errors")]
-        public List<Dictionary<string, string>> Errors { get; set; }
+        [JsonProperty("errors")]
+        public List<Error> Errors { get; set; }
 
-        [JsonPropertyName("messages")]
+        [JsonProperty("messages")]
         public List<Dictionary<string, string>> Messages { get; set; }
+    }
 
-        [JsonPropertyName("result")]
-        public List<T> Result { get; set; }
+    public partial class Error
+    {
+        [JsonProperty("code")]
+        public string Code { get; set; }
+        [JsonProperty("message")]
+        public string Message { get; set; }
     }
 }

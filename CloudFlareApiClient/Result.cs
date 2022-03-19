@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace CloudFlareApiClient
 {
     public abstract class Result
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; set; }
     }
 }

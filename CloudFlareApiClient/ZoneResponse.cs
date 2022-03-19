@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CloudFlareApiClient
 {
-    public class ZoneResponse : BaseResponse<ZoneResult> { }
+    public class ZoneResponse : BaseResponse
+    {
+        [JsonProperty("result")]
+        [JsonConverter(typeof(SingleOrArrayZoneResultConverter<ZoneResult>))]
+        public List<ZoneResult> Result { get; set; }
+    }
 }
