@@ -72,28 +72,30 @@ namespace CloudFlareApiClient
         /// <summary>
         /// Method to update an existing DNS record (using zone id from configuration)
         /// </summary>
+        /// <param name="dnsRecordId">ID of the DNS record to update</param>
         /// <param name="dnsRecordRequest">Request body</param>
         /// <param name="urlParameters">(Optional) URL parameters</param>
         /// <returns>DNS record response object</returns>
-        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
+        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(string dnsRecordId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
-            return await UpdateDnsRecordAsync(_configuration.ZoneId, dnsRecordRequest, urlParameters);
+            return await UpdateDnsRecordAsync(_configuration.ZoneId, dnsRecordId, dnsRecordRequest, urlParameters);
         }
 
         /// <summary>
         /// Method to update an existing DNS record
         /// </summary>
         /// <param name="zoneId">ID of the zone where the record exists</param>
+        /// <param name="dnsRecordId">ID of the DNS record to update</param>
         /// <param name="dnsRecordRequest">Request body</param>
         /// <param name="urlParameters">(Optional) URL parameters</param>
         /// <returns>DNS record response object</returns>
-        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(string zoneId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
+        public async Task<DnsRecordResponse> UpdateDnsRecordAsync(string zoneId, string dnsRecordId, DnsRecordRequest dnsRecordRequest, List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
-                Path = $"/zones/{zoneId}/dns_records",
+                Path = $"/zones/{zoneId}/dns_records/{dnsRecordId}",
                 UrlParameters = urlParameters,
-                Body = SerializeRequest<DnsRecordRequest>(dnsRecordRequest)
+                Body = SerializeRequest(dnsRecordRequest)
             };
 
             var response = await _client.PutRequestAsync(request);
