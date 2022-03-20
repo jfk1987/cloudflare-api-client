@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 namespace CloudFlareApiClient
 {
     public partial class Client
-    {        
-        public async Task<ZoneResponse> ListZonesAsync(List<UrlParameter> urlParameters)
+    {
+        /// <summary>
+        /// Method to list all dns zones of an account
+        /// </summary>
+        /// <param name="urlParameters">(Optional) URL parameters</param>
+        /// <returns>A ZoneResponse object</returns>
+        public async Task<ZoneResponse> ListZonesAsync(List<UrlParameter> urlParameters = null)
         {
             var request = new RestRequest
             {
