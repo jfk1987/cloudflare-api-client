@@ -102,5 +102,36 @@ namespace CloudFlareApiClient
 
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
+
+        /// <summary>
+        /// Method to delete an existing DNS record
+        /// </summary>
+        /// <param name="dnsRecordId">ID of the DNS record to update</param>
+        /// <param name="urlParameters">(Optional) URL parameters</param>
+        /// <returns>DNS record response object</returns>
+        public async Task<DnsRecordResponse> DeleteDnsRecordAsync(string dnsRecordId, List<UrlParameter> urlParameters = null)
+        {
+            return await DeleteDnsRecordAsync(_configuration.ZoneId, dnsRecordId, urlParameters);
+        }
+
+        /// <summary>
+        /// Method to delete an existing DNS record
+        /// </summary>
+        /// <param name="zoneId">ID of the zone where the record exists</param>
+        /// <param name="dnsRecordId">ID of the DNS record to update</param>
+        /// <param name="urlParameters">(Optional) URL parameters</param>
+        /// <returns>DNS record response object</returns>
+        public async Task<DnsRecordResponse> DeleteDnsRecordAsync(string zoneId, string dnsRecordId, List<UrlParameter> urlParameters = null)
+        {
+            var request = new RestRequest
+            {
+                Path = $"/zones/{zoneId}/dns_records/{dnsRecordId}",
+                UrlParameters = urlParameters
+            };
+
+            var response = await _client.PutRequestAsync(request);
+
+            return DeserializeResponse<DnsRecordResponse>(response.Body);
+        }
     }
 }
