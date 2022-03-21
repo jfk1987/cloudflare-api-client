@@ -129,7 +129,7 @@ namespace CloudFlareApiClient
                 UrlParameters = urlParameters
             };
 
-            var response = await _client.PutRequestAsync(request);
+            var response = await _client.DeleteRequestAsync(request);
 
             return DeserializeResponse<DnsRecordResponse>(response.Body);
         }
